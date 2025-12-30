@@ -1,11 +1,5 @@
 {
   "name": "markium-saas-landing-page",
   "version": "1.0.0",
-  "private": true,
-  "scripts": {
-    "dev": "wrangler pages dev . --port 8788"
-  },
-  "devDependencies": {
-    "wrangler": "^4.54.0"
-  }
+  "private": true
 }
