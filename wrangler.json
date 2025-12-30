@@ -1,6 +1,0 @@
-{
-  "name": "markium-saas-landing-page",
-  "compatibility_date": "2025-12-30",
-  "pages_build_output_dir": ".",
-  "compatibility_flags": ["nodejs_compat"]
-}
