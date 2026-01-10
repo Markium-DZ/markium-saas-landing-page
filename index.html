@@ -401,6 +401,31 @@
         padding-bottom: 16px;
     }
 }
+/* Letter avatars for testimonials - hide images, show initials */
+.framer-1x7wmlz[data-framer-name="Avatar"] {
+    position: relative;
+    background-color: rgb(0, 248, 114) !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+}
+.framer-1x7wmlz[data-framer-name="Avatar"] img {
+    display: none !important;
+}
+.framer-1x7wmlz[data-framer-name="Avatar"] [data-framer-background-image-wrapper] {
+    display: none !important;
+}
+.framer-1x7wmlz[data-framer-name="Avatar"]::after {
+    content: attr(data-initial);
+    font-family: 'Inter', sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: rgb(23, 59, 54);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
 </style>
 <script>
 (function() {
@@ -423,10 +448,36 @@
         updateHeader();
     }
 
+    function setupLetterAvatars() {
+        var avatars = document.querySelectorAll('.framer-1x7wmlz[data-framer-name="Avatar"]');
+        avatars.forEach(function(avatar) {
+            // Find the nearest testimonial card and get the author name
+            var card = avatar.closest('[data-framer-name="Testimonial"], [data-framer-name="Card"], [class*="framer-"]');
+            if (card) {
+                // Look for name in sibling or parent elements
+                var nameEl = card.querySelector('p.framer-text');
+                var allText = card.querySelectorAll('p.framer-text, h5.framer-text');
+                var initial = 'U';
+                allText.forEach(function(el) {
+                    var text = el.textContent.trim();
+                    // Look for names (First Last or First L. format)
+                    if (text.match(/^[A-Z][a-z]+ [A-Z]/) && text.length < 30) {
+                        initial = text.charAt(0);
+                    }
+                });
+                avatar.setAttribute('data-initial', initial);
+            }
+        });
+    }
+
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', handleHeaderBorder);
+        document.addEventListener('DOMContentLoaded', function() {
+            handleHeaderBorder();
+            setupLetterAvatars();
+        });
     } else {
         handleHeaderBorder();
+        setupLetterAvatars();
     }
 })();
 </script>
